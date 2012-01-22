@@ -20,9 +20,3 @@ cd ~/Dropbox/Christine-Wilson/Websites/connectcreatives.com
 
 Change repository URL:
 git remote set-url origin git@github.com:cj3wilso/Connect-Creatives.git
-
-Add everything - new, deleted, updated
-git add .
-git commit -A 'all files'
-
-git status

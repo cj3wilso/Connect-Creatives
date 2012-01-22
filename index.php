@@ -90,7 +90,6 @@
 
 <body>
 <h1>Connect Creatives</h1>
-<?php echo $error; ?>
 <form id="register" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
   <input type="hidden" name"">
   <fieldset>
