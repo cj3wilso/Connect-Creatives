@@ -1,10 +1,13 @@
-To create new git repo
+Init dir and git
 cd ~/Dropbox/Christine-Wilson/Websites/connectcreatives.com
 git init
-touch new_file_here
+
+Add file
+git add new_file_here
+git add -u
+git add -a
 
 Commit file
-git add new_file_here
 git commit -m 'commit-name'
 
 Push to server
