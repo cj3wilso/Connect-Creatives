@@ -1,0 +1,80 @@
+ALTER TABLE cc_user_friends ADD added datetime NOT NULL default '0000-00-00 00:00:00';
+alter table cc_profile ADD user_token varchar(30);
+alter table cc_profile add foreign key(user_token) references cc_users(token);
+RENAME TABLE old_table TO tmp_table;
+alter table cc_profile drop column rating; 
+
+CREATE TABLE cc_users (
+ID MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+job_title VARCHAR(60), 
+email VARCHAR(60), 
+password VARCHAR(60),
+first_name varchar(60) NOT NULL default '',
+last_name varchar(60) NOT NULL default '',
+registered datetime NOT NULL default '0000-00-00 00:00:00',
+reg_ip varchar(15) NOT NULL default '',
+token varchar(30),
+online BOOLEAN NOT NULL default 0
+)
+
+
+CREATE TABLE cc_profile (
+ID MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+user_id MEDIUMINT NOT NULL, 
+FOREIGN KEY (user_id) REFERENCES cc_users(ID)
+ON DELETE CASCADE,
+FOREIGN KEY (user_token) REFERENCES cc_users(token),
+first_name varchar(60), 
+last_name varchar(60), 
+profile_pic varchar(255),
+overview LONGTEXT,
+portfolio varchar(255),
+job_title varchar(255),
+skills varchar(255),
+phone varchar(60),
+city varchar(60),
+province varchar(60),
+country varchar(60)
+)
+
+
+CREATE TABLE cc_projects (
+ID MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+project_token varchar(30),
+title varchar(255),
+byline varchar(255),
+content LONGTEXT,
+status varchar(30),
+pubdate datetime,
+modified datetime,
+city varchar(60) NOT NULL default '',
+province varchar(60) NOT NULL default '',
+country varchar(60) NOT NULL default ''
+)
+
+
+CREATE TABLE cc_user_projects (
+ID MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+user_id MEDIUMINT NOT NULL,
+project_id MEDIUMINT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES cc_users(ID)
+ON DELETE CASCADE,
+FOREIGN KEY (project_id) REFERENCES cc_projects(ID),
+own varchar(60) NOT NULL default ''
+)
+
+CREATE TABLE cc_user_friends (
+ID MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+user_id MEDIUMINT NOT NULL,
+user_friend MEDIUMINT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES cc_users(ID)
+ON DELETE CASCADE,
+FOREIGN KEY (user_friend) REFERENCES cc_users(ID),
+added datetime NOT NULL default '0000-00-00 00:00:00'
+)
+
+
+CREATE TABLE cc_rating (
+rating MEDIUMINT(5),
+)
+CREATE TABLE cc_skills ()

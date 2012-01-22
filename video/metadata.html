@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OpenTok Sample &#151; Passing user information</title>
+	<link href="samples.css" type="text/css" rel="stylesheet" >
+	<script src="http://staging.tokbox.com/v0.91/js/TB.min.js" type="text/javascript" charset="utf-8"></script> <!--DELETE THIS -->
+   	<script type="text/javascript">
+		const API_KEY = 1127; // OpenTok sample code key. Replace with your own API key.
+		const SESSION_ID = "1413daf79cd28402b7f08edde415d28ae5b0c194"; // Replace with your session ID.
+		const TOKEN = "devtoken";	// Should not be hard-coded.
+									// Add to the page using the OpenTok server-side libraries.
+		var session;
+		var publisher;
+		var subscribers = {};
+
+		// Un-comment either of the following to set automatic logging and exception handling.
+		// See the exceptionHandler() method below.
+		// TB.setLogLevel(TB.DEBUG);
+		// TB.addEventListener("exception", exceptionHandler);
+
+		if (TB.checkSystemRequirements() != TB.HAS_REQUIREMENTS) {
+			alert("You don't have the minimum requirements to run this application."
+				  + "Please upgrade to the latest version of Flash.");
+		} else {
+			session = TB.initSession(SESSION_ID);
+
+			// Add event listeners to the session
+			session.addEventListener("sessionConnected", sessionConnectedHandler);
+			session.addEventListener("sessionDisconnected", sessionDisconnectedHandler);
+			session.addEventListener("streamCreated", streamCreatedHandler);
+			session.addEventListener("streamDestroyed", streamDestroyedHandler);
+			session.addEventListener("connectionCreated", connectionCreatedHandler);
+			session.addEventListener("connectionDestroyed", connectionDestroyedHandler);
+		}
+
+		//--------------------------------------
+		//  OPENTOK EVENT HANDLERS
+		//--------------------------------------
+
+		function sessionConnectedHandler(event) {
+			setStatus("");
+			for (var i = 0; i < event.streams.length; i++) {
+				addStream(event.streams[i]);
+			}
+			for (i = 0; i < event.connections.length; i++) {
+				addConnection(event.connections[i]);
+			}
+
+			hide("connectLink");
+			show("disconnectLink");
+			startPublishing();
+		}
+
+		function sessionDisconnectedHandler(event) {
+
+			show("connectLink");
+			hide("disconnectLink");
+			hide("publishLink");
+			hide("unpublishLink");
+			show("login");
+			hide("sessionContent");
+		}
+
+		function streamCreatedHandler(event) {
+			for (var i = 0; i < event.streams.length; i++) {
+				addStream(event.streams[i]);
+			}
+		}
+
+		function streamDestroyedHandler(event) {
+			for (var i = 0; i < event.streams.length; i++) {
+				removeStream(event.streams[i].streamId);
+				if (event.streams[i].connection.connectionId == session.connection.connectionId) {
+					hide("unpublishLink");
+					show("publishLink");
+					publisher = null;
+				} else {
+					removeStream(event.streams[i].streamId);
+				}
+			}
+		}
+
+		function connectionCreatedHandler(event) {
+			for (i = 0; i < event.connections.length; i++) {
+				addConnection(event.connections[i]);
+			}
+		}
+
+		function connectionDestroyedHandler(event) {
+			for (i = 0; i < event.connections.length; i++) {
+				removeConnection(event.connections[i]);
+			}
+		}
+
+		/*
+		If you un-comment the call to TB.addEventListener("exception", exceptionHandler) above, OpenTok calls the
+		exceptionHandler() method when exception events occur. You can modify this method to further process exception events.
+		If you un-comment the call to TB.setLogLevel(), above, OpenTok displays exception event messages to the debugging console.
+		*/
+		function exceptionHandler(event) {
+			alert("Exception: " + event.code + "::" + event.message);
+		}
+
+		//--------------------------------------
+		//  LINK CLICK HANDLERS
+		//--------------------------------------
+
+		/*
+		If testing the app from the desktop, be sure to check the Flash Player Global Security setting
+		to allow the page from communicating with SWF content loaded from the web. For more information,
+		see http://www.tokbox.com/opentok/build/tutorials/helloworld.html#localTest
+		*/
+		function connect() {
+			var usernameField = document.getElementById("username");
+			var colorSelect = document.getElementById("colorSelect");
+			var sessionContent = document.getElementById("sessionContent");
+			if (usernameField.value.length == 0) {
+				show("warning");
+				return;
+			} else {
+				var userProperties = {username: usernameField.value, color: colorSelect.value};
+				publisherColor = colorStringToHexString(colorSelect.value);
+				try {
+					var connectionData = JSON.stringify(userProperties);
+				} catch (error) {
+					connectionData = '{' + '"username":"' + usernameField.value + '", "color":"' + colorSelect.value + '"}';
+				}
+				var sessionConnectProperties = {connectionData:connectionData};
+				session.connect(API_KEY, TOKEN, sessionConnectProperties);
+				hide("login");
+				hide("warning"); // In case it was displayed. So that it is hidden if the login div is redisplayed.
+				show("sessionContent");
+				setStatus("Connecting...");
+			}
+		}
+
+		function disconnect() {
+			for (streamId in subscribers) {
+				removeStream(streamId)
+			}
+			stopPublishing();
+			document.getElementById("connections").innerHTML = "";
+			session.disconnect();
+		}
+
+		// Called when user wants to start publishing to the session
+		function startPublishing() {
+			if (!publisher) {
+				var parentDiv = document.getElementById("myCamera");
+				var publisherDiv = document.createElement('div'); // Create a div for the publisher to replace
+				publisherDiv.setAttribute('id', 'opentok_publisher');
+				parentDiv.appendChild(publisherDiv);
+				publisher = session.publish(publisherDiv.id); // Pass the replacement div id to the publish method
+				hide('publishLink');				
+			}
+		}
+
+		function stopPublishing() {
+			if (publisher) {
+				session.unpublish(publisher);
+			}
+			publisher = null;
+		}
+
+		//--------------------------------------
+		//  HELPER METHODS
+		//--------------------------------------
+
+		function addStream(stream) {
+			if (stream.connection.connectionId == session.connection.connectionId) {
+				show("unpublishLink");
+				return;
+			}
+			// Create the container for the subscriber
+			var container = document.createElement('div');
+			container.className = "subscriberContainer";
+			var containerId = "container_" + stream.streamId;
+			container.setAttribute("id", containerId);
+			document.getElementById("subscribers").appendChild(container);
+
+			// Create the div that will be replaced by the subscriber
+			var div = document.createElement('div');
+			var divId = stream.streamId;
+			div.setAttribute('id', divId);
+			div.style.cssFloat = "top";
+			container.appendChild(div);
+
+			// Create a div for the user data
+			var subscriberData = document.createElement('div');
+			subscriberData.style.cssFloat = "bottom";
+			var connectionData = getConnectionData(stream.connection);
+			subscriberData.style.margin = "0px 0px 2px 4px";
+			subscriberData.innerHTML = connectionData.username + ' (' + connectionData.color + ')';
+			container.style["border"] = "medium solid " + colorStringToHexString(connectionData.color);
+			container.appendChild(subscriberData);
+
+			subscribers[stream.streamId] = session.subscribe(stream, divId);
+		}
+
+		function addConnection(connection) {
+			if (connection.connectionId != session.connection.connectionId) {
+				var connectionListing = document.createElement('p');
+				connectionData = getConnectionData(connection);
+				connectionListing.style.margin = "0px 0px 2px 4px";
+				connectionListing.innerHTML = connection.connectionId;
+				connectionListing.innerHTML = connectionData.username + ' (' + connectionData.color + ')';
+				connectionListing.setAttribute("id", connection.connectionId);
+				document.getElementById("connections").appendChild(connectionListing);
+			}
+		}
+
+		function getConnectionData(connection) {
+			try {
+				connectionData = JSON.parse(connection.data);
+			} catch(error) {
+				connectionData = eval("(" + connection.data + ")" );
+			}
+			return connectionData;
+		}
+
+		function removeStream(streamId) {
+			var subscriber = subscribers[streamId];
+			if (subscriber) {
+				var container = document.getElementById(subscriber.id).parentNode;
+
+				session.unsubscribe(subscriber);
+				delete subscribers[streamId];
+
+				// Clean up the subscriber container
+				document.getElementById("subscribers").removeChild(container);
+			}
+		}
+		
+		function removeConnection(connection) {
+			connectionListing = document.getElementById(connection.connectionId);
+			if (connectionListing) {
+				document.getElementById("connections").removeChild(connectionListing);
+			}
+		}
+
+		function setStatus(statusString) {
+			document.getElementById("status").innerHTML = statusString;
+		}
+
+		function show(id) {
+			document.getElementById(id).style.display = 'block';
+		}
+
+		function hide(id) {
+			document.getElementById(id).style.display = 'none';
+		}
+
+		function colorStringToHexString(colorString) {
+			switch (colorString) {
+				case "Blue":
+					return "#00F";
+					break;
+				case "Green":
+					return "#0F0";
+					break;
+				case "Orange":
+					return "#F80";
+					break;
+				case "Purple":
+					return "#F0F";
+					break;
+				case "Red":
+					return "#F00";
+					break;
+				default:
+					return "#000";
+					break;
+			}
+			return "#000";
+		}
+        </script>
+</head>
+<body>
+	<div id="login">
+    	<p>Enter your name:
+    		<input type="text" id="username" maxlength="12"/>
+        </p>
+        <p>Select a color:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select id="colorSelect">
+                <option selected="selected">Blue</option>
+                <option>Green</option>
+                <option>Orange</option>
+                <option>Red</option>
+                <option>Purple</option>
+            </select>
+        </p>
+        <p><input type="button" value="Connect" id ="connectLink" onClick="javascript:connect()" /></p>
+        <p id="warning" style="display:none; color:#F00">Please enter your name.</p>
+    </div>
+    <div id="sessionContent" style="display:none; clear:both">
+        <div id="topBar">
+        	<div id="status"></div>
+            <div id="links">
+                <input type="button" value="Leave" id ="disconnectLink" onClick="javascript:disconnect()" />
+                <input type="button" value="Start Publishing" id ="publishLink" onClick="javascript:startPublishing()" />
+                <input type="button" value="Stop Publishing" id ="unpublishLink" onClick="javascript:stopPublishing()" />
+            </div>
+        </div>
+        <div id="myCamera" class="publisherContainer" style="height:220px; margin-right:10px"></div>
+        <div id="subscribers" style="height:240px" style="float:left"></div>
+        <div id="connectionsContainer" style="clear:both">
+	        <p style="margin:4px">Connected users:</p>
+        	<div id="connections"></div>
+        </div>
+    </div>
+</body>
+</html>

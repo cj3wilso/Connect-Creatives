@@ -1,0 +1,117 @@
+html, body, h1, form, fieldset, legend, ol, li {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background: url('../cc-logo-bw.png') no-repeat 50% 0;
+	color: #111111;
+	font: 13px Georgia, "Times New Roman", Times, serif;
+	padding: 20px;
+	text-align: center;
+}
+h1 {
+	visibility: hidden;
+	font-size: 28px;
+	margin-bottom: 200px;
+}
+form#register {
+	background: #9cbc2c;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	counter-reset: fieldsets;
+	padding: 20px;
+	width: 400px;
+	text-align: left;
+	margin: 0 auto;
+}
+form#register fieldset {
+	border: none;
+	margin-bottom: 10px;
+}
+form#register fieldset:last-of-type {
+	margin-bottom: 0;
+}
+form#register legend {
+	color: #384313;
+	font-size: 16px;
+	font-weight: bold;
+	padding-bottom: 10px;
+	text-shadow: 0 1px 1px #c0d576;
+}
+form#register fieldset fieldset legend {
+	color: #111111;
+	font-size: 13px;
+	font-weight: normal;
+	padding-bottom: 0;
+}
+form#register ol li {
+	background: #b9cf6a;
+	background: rgba(255,255,255,.3);
+	border-color: #e3ebc3;
+	border-color: rgba(255,255,255,.6);
+	border-style: solid;
+	border-width: 2px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	line-height: 30px;
+	list-style: none;
+	padding: 5px 10px;
+	margin-bottom: 2px;
+	min-height:28px;
+}
+form#register ol ol li {
+	background: none;
+	border: none;
+	float: left;
+}
+form#register label {
+	float: left;
+	font-size: 13px;
+	width: 125px;
+}
+form#register input:not([type=radio checkbox]), form#register textarea {
+	background: #ffffff;
+	border: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+	font: italic 13px Georgia, "Times New Roman", Times, serif;
+	outline: none;
+	padding: 5px;
+	width: 200px;
+}
+form#register input[type=submit] {
+	width: 150px;
+}
+form#register input:not([type=submit]):focus,  form#register textarea:focus {
+	background: #eaeaea;
+}
+form#register input[type=radio] {
+	float: left;
+	margin-right: 5px;
+}
+form#register button {
+	background: #384313;
+	border: none;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-khtml-border-radius: 20px;
+	border-radius: 20px;
+	color: #ffffff;
+	display: block;
+	font: 12px Georgia, "Times New Roman", Times, serif;
+	letter-spacing: 1px;
+	margin: auto;
+	padding: 7px 25px;
+	text-shadow: 0 1px 1px #000000;
+	font-weight:bold;
+}
+form#register button:hover {
+	background: #565656;
+	cursor: pointer;
+}
