@@ -8,8 +8,7 @@ git add -u
 git add -a
 
 Commit file
-git commit -m "commit-name"
-git commit -m "commit-name"
+git commit -m "commit-name" 
 
 Push to server
 git remote add origin git@github.com:cj3wilso/Connect-Creatives.git
