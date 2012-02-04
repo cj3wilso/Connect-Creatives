@@ -25,9 +25,8 @@
     <ol>
       <li>
 		<?php echo $info['content']; ?><br>
-        Location: <?php echo $info['city']; ?>, <?php echo $info['province']; ?>, <?php echo $info['country']; ?><br>
         Status: <?php echo $info['status']; ?><br>
-        <?php if ($_GET[type] != "own"){ ?>
+        <?php if ($_GET["type"] != "own"){ ?>
         Owner: <?php echo $info['username']; ?>
         <?php } ?>
         </li>

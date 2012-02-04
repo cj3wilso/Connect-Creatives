@@ -11,7 +11,7 @@
  	$id = $_COOKIE['ID_my_site']; 
  	$pass = $_COOKIE['Key_my_site']; 
 
-		$check = mysql_query("SELECT cc_projects.* FROM cc_user_projects, cc_projects WHERE cc_user_projects.user_id = '$id' AND cc_user_projects.project_id = cc_projects.ID ORDER BY cc_projects.pubdate DESC")or die(mysql_error());
+		$check = mysql_query("SELECT cc_projects.*, cc_user_projects.type FROM cc_user_projects, cc_projects WHERE cc_user_projects.user_id = '$id' AND cc_user_projects.project_id = cc_projects.ID ORDER BY cc_projects.pubdate DESC")or die(mysql_error());
 		include '_inc/header.php'; 
 ?>
 <h2>My Projects</h2>
@@ -33,6 +33,16 @@
 		<?php echo $check2['content']; ?><br>
         Location: <?php echo $check2['city']; ?>, <?php echo $check2['province']; ?>, <?php echo $check2['country']; ?><br>
         Status: <?php echo $check2['status']; ?><br>
+        Type: <?php 
+		if ($check2['type'] == "own"){
+			echo "Owner";
+		}else if ($check2['type'] == "join"){
+			echo "Collaborator";
+		}else{
+			echo "Collaborator (Waiting for approval)";
+		}
+		?>
+        
         </li>
     </ol>
   </fieldset>

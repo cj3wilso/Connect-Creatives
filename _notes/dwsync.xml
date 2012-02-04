@@ -18,7 +18,6 @@
 <file name="forgot.php" server="whub27.webhostinghub.com//public_html/" local="129670195305436296" remote="129670087200000000" />
 <file name="reset.php" server="whub27.webhostinghub.com//public_html/" local="129670889902114953" remote="129670781400000000" />
 <file name="database.txt" server="whub27.webhostinghub.com//public_html/" local="129677782373947975" remote="129677703600000000" />
-<file name=".ftpquota" server="christinewilson.ca/www/" local="129664575000000000" remote="129664575000000000" />
 <file name="cc-logo-bw.png" server="christinewilson.ca/www/" local="129655900800000000" remote="129655900800000000" />
 <file name="database.txt" server="christinewilson.ca/www/" local="129677703600000000" remote="129677703600000000" />
 <file name="error_log" server="christinewilson.ca/www/" local="129670079400000000" remote="129670079400000000" />
@@ -39,5 +38,6 @@
 <file name="projects-mine.php" server="christinewilson.ca/www/" local="129677710200000000" remote="129677710200000000" />
 <file name="reset.php" server="christinewilson.ca/www/" local="129670781400000000" remote="129670781400000000" />
 <file name="robots.txt" server="christinewilson.ca/www/" local="129683019000000000" remote="129683019000000000" />
-<file name="test.php" server="christinewilson.ca/www/" local="129663982200000000" remote="129663982200000000" />
+<file name="approve.php" server="christinewilson.ca/www/" local="129727963780743565" remote="129727858200000000" />
+<file name="README.txt" server="christinewilson.ca/www/" local="129716798562968011" remote="129727858800000000" />
 </dwsync>

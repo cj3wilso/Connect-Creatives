@@ -11,7 +11,7 @@
  	$id = $_COOKIE['ID_my_site']; 
  	$pass = $_COOKIE['Key_my_site']; 
 
-		$check = mysql_query("SELECT *, cc_projects.ID AS projects_id FROM cc_user_projects, cc_projects, cc_users WHERE cc_projects.status = 'publish' AND DATE_SUB(CURDATE(),INTERVAL 30 DAY) <= cc_projects.pubdate AND cc_user_projects.project_id = cc_projects.ID AND cc_user_projects.user_id = cc_users.ID AND cc_user_projects.user_id != '$id' AND cc_user_projects.type = 'own' ORDER BY cc_projects.pubdate DESC")or die(mysql_error());
+		$check = mysql_query("SELECT *, cc_projects.ID AS projects_id FROM cc_user_projects, cc_projects, cc_users WHERE cc_projects.status = 'publish' AND DATE_SUB(CURDATE(),INTERVAL 1200 DAY) <= cc_projects.pubdate AND cc_user_projects.project_id = cc_projects.ID AND cc_user_projects.user_id = cc_users.ID AND cc_user_projects.user_id != '$id' AND cc_user_projects.type = 'own' ORDER BY cc_projects.pubdate DESC")or die(mysql_error());
 
 
 if (isset($_POST['add'])) { 
@@ -40,8 +40,6 @@ include '_inc/header.php';
         Owner: <a href="peer.php?id=<?php echo $check2['token']; ?>"><?php echo $check2['first_name'].' '.$check2['last_name']; ?></a><br />
         Job Title: <?php echo $check2['job_title']; ?><br />
        <?php  
-	   echo $check2['user_id']; 
-	   echo $id; 
 	   if ($id == $check2['user_id']){
 	   }
 	   ?>

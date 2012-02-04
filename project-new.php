@@ -59,18 +59,6 @@
         <br>
         <textarea rows="7" name="content" style="width:97%;"></textarea>
       </li>
-      <li>
-        <label for=city>City</label>
-        <input type="text" name="city" value="<?php echo $info['city']; ?>" maxlength="60" required>
-      </li>
-      <li>
-        <label for=city>Province</label>
-        <input type="text" name="province" value="<?php echo $info['province']; ?>" maxlength="60" required>
-      </li>
-      <li>
-        <label for=country>Country</label>
-        <?php include '_inc/country-list.php'; ?>
-      </li>
     </ol>
   </fieldset>
   <fieldset>

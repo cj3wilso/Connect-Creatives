@@ -43,7 +43,7 @@
         Phone: <?php echo $info['phone']; ?><br>
         Overview: <?php echo $info['overview']; ?><br>
         Skills: <?php echo $info['skills']; ?><br>
-        Portfolio: <?php echo $info['portfolio']; ?>
+        Portfolio: <a href="<?php echo $info['portfolio']; ?>" target="_blank"><?php echo $info['portfolio']; ?></a>
         </li>
     </ol>
   </fieldset>

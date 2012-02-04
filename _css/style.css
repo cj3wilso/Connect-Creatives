@@ -14,7 +14,7 @@ h1 {
 	font-size: 28px;
 	margin-bottom: 200px;
 }
-form#register {
+#register {
 	background: #9cbc2c;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -26,27 +26,27 @@ form#register {
 	text-align: left;
 	margin: 0 auto;
 }
-form#register fieldset {
+#register fieldset {
 	border: none;
 	margin-bottom: 10px;
 }
-form#register fieldset:last-of-type {
+#register fieldset:last-of-type {
 	margin-bottom: 0;
 }
-form#register legend {
+#register legend {
 	color: #384313;
 	font-size: 16px;
 	font-weight: bold;
 	padding-bottom: 10px;
 	text-shadow: 0 1px 1px #c0d576;
 }
-form#register fieldset fieldset legend {
+#register fieldset fieldset legend {
 	color: #111111;
 	font-size: 13px;
 	font-weight: normal;
 	padding-bottom: 0;
 }
-form#register ol li {
+#register ol li {
 	background: #b9cf6a;
 	background: rgba(255,255,255,.3);
 	border-color: #e3ebc3;
@@ -63,17 +63,17 @@ form#register ol li {
 	margin-bottom: 2px;
 	min-height:28px;
 }
-form#register ol ol li {
+#register ol ol li {
 	background: none;
 	border: none;
 	float: left;
 }
-form#register label {
+#register label {
 	float: left;
 	font-size: 13px;
 	width: 125px;
 }
-form#register input:not([type=radio checkbox]), form#register textarea {
+#register input:not([type=radio checkbox]), #register textarea {
 	background: #ffffff;
 	border: none;
 	-moz-border-radius: 3px;
@@ -85,17 +85,17 @@ form#register input:not([type=radio checkbox]), form#register textarea {
 	padding: 5px;
 	width: 200px;
 }
-form#register input[type=submit] {
+#register input[type=submit] {
 	width: 150px;
 }
-form#register input:not([type=submit]):focus,  form#register textarea:focus {
+#register input:not([type=submit]):focus,  #register textarea:focus {
 	background: #eaeaea;
 }
-form#register input[type=radio] {
+#register input[type=radio] {
 	float: left;
 	margin-right: 5px;
 }
-form#register button {
+#register button {
 	background: #384313;
 	border: none;
 	-moz-border-radius: 20px;
@@ -103,7 +103,6 @@ form#register button {
 	-khtml-border-radius: 20px;
 	border-radius: 20px;
 	color: #ffffff;
-	display: block;
 	font: 12px Georgia, "Times New Roman", Times, serif;
 	letter-spacing: 1px;
 	margin: auto;
@@ -111,7 +110,14 @@ form#register button {
 	text-shadow: 0 1px 1px #000000;
 	font-weight:bold;
 }
-form#register button:hover {
+#register button:hover {
 	background: #565656;
 	cursor: pointer;
+}
+.dialog-form textarea{
+	width:315px;
+	height:215px;
+}
+fieldset{
+	border:0px;
 }
