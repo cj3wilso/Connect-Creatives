@@ -23,3 +23,5 @@ cd ~/Dropbox/Christine-Wilson/Websites/connectcreatives.com
 
 Change repository URL:
 git remote set-url origin git@github.com:cj3wilso/Connect-Creatives.git
+
+Enter paraphrase for key: 57575757aA
